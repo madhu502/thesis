@@ -3,7 +3,8 @@ import ReactDOM from "react-dom/client";
 import { Provider } from "react-redux";
 import { RouterProvider } from "react-router-dom";
 import "./index.css";
-import router from "./routes/routes";
+import reportWebVitals from "./reportWebVitals";
+import router from "./routes";
 import { store } from "./store/store";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
@@ -12,3 +13,4 @@ root.render(
     <RouterProvider router={router} />
   </Provider>
 );
+reportWebVitals();
