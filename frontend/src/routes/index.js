@@ -1,5 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
+import AdminPanel from "../pages/AdminPanel";
+import AllProducts from "../pages/AllProducts";
+import AllUsers from "../pages/AllUsers";
 import ForgotPassword from "../pages/ForgotPassword";
 import HomePage from "../pages/HomePage";
 import Login from "../pages/Login";
@@ -41,20 +44,20 @@ const router = createBrowserRouter([
       //   path: "search",
       //   element: <SearchProduct />,
       // },
-      // {
-      //   path: "admin-panel",
-      //   element: <AdminPanel />,
-      //   children: [
-      //     {
-      //       path: "all-users",
-      //       element: <AllUsers />,
-      //     },
-      //     {
-      //       path: "all-products",
-      //       element: <AllProducts />,
-      //     },
-      //   ],
-      // },
+      {
+        path: "admin-panel",
+        element: <AdminPanel />,
+        children: [
+          {
+            path: "all-users",
+            element: <AllUsers />,
+          },
+          {
+            path: "all-products",
+            element: <AllProducts />,
+          },
+        ],
+      },
     ],
   },
 ]);
