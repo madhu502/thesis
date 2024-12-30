@@ -59,9 +59,7 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
     });
   };
 
-  {
-    /**upload product */
-  }
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -104,7 +102,7 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
           className="grid p-4 gap-2 overflow-y-scroll h-full pb-5"
           onSubmit={handleSubmit}
         >
-          <label htmlFor="productName">Product Name :</label>
+          <label htmlFor="productName">Product Name </label>
           <input
             type="text"
             id="productName"
@@ -117,7 +115,7 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
           />
 
           <label htmlFor="brandName" className="mt-3">
-            Brand Name :
+            Brand Name 
           </label>
           <input
             type="text"
@@ -131,7 +129,7 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
           />
 
           <label htmlFor="category" className="mt-3">
-            Category :
+            Category 
           </label>
           <select
             required
@@ -151,7 +149,7 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
           </select>
 
           <label htmlFor="productImage" className="mt-3">
-            Product Image :
+            Product Image 
           </label>
           <label htmlFor="uploadImageInput">
             <div className="p-2 bg-slate-100 border rounded h-32 w-full flex justify-center items-center cursor-pointer">
@@ -205,7 +203,7 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
           </div>
 
           <label htmlFor="price" className="mt-3">
-            Price :
+            Price 
           </label>
           <input
             type="number"
@@ -219,7 +217,7 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
           />
 
           <label htmlFor="sellingPrice" className="mt-3">
-            Selling Price :
+            Selling Price 
           </label>
           <input
             type="number"
@@ -233,7 +231,7 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
           />
 
           <label htmlFor="description" className="mt-3">
-            Description :
+            Description 
           </label>
           <textarea
             className="h-28 bg-slate-100 border resize-none p-1"
@@ -244,7 +242,7 @@ const AdminEditProduct = ({ onClose, productData, fetchdata }) => {
             value={data.description}
           ></textarea>
 
-          <button className="px-3 py-2 bg-red-600 text-white mb-10 hover:bg-red-700">
+          <button className="px-3 py-2 bg-blue-800 text-white mb-10 hover:bg-blue-900">
             Update Product
           </button>
         </form>
