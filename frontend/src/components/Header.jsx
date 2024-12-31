@@ -108,7 +108,7 @@ const Header = () => {
           </div>
 
           {user?._id && (
-            <Link to="/cart" className="text-2xl relative">
+            <Link to={"/cart"} className="text-2xl relative">
               <span>
                 <FaShoppingCart />
               </span>

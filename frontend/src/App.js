@@ -49,7 +49,7 @@ function App() {
       <Context.Provider
         value={{
           fetchUserDetails, // user detail fetch
-          // cartProductCount, // current user add to cart product count,
+          cartProductCount, // current user add to cart product count,
           fetchUserAddToCart,
         }}
       >
