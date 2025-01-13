@@ -94,12 +94,6 @@ const Login = () => {
                   <span>{showPassword ? <FaEyeSlash /> : <FaEye />}</span>
                 </div>
               </div>
-              <Link
-                to={"/forgot-password"}
-                className="block w-fit ml-auto hover:underline hover:text-red-600"
-              >
-                Forgot password ?
-              </Link>
             </div>
 
             <button className="bg-blue-800 hover:bg-blue-800 text-white px-6 py-2 w-full max-w-[150px] rounded-full hover:scale-110 transition-all mx-auto block mt-6">
@@ -107,7 +101,7 @@ const Login = () => {
             </button>
           </form>
 
-          <p className="my-5">
+          <p className="my-5 ">
             Don't have account ?{" "}
             <Link
               to={"/sign-up"}

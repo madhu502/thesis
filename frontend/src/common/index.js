@@ -9,15 +9,7 @@ const SummaryApi = {
     url: `${backendDomin}/api/signin`,
     method: "post",
   },
-  // forgotPassword: {
-  //   url: `${backendDomin}/api/forgot-password`,
-  //   method: "post",
-  // },
-  // resetPassword: {
-  //   url: `${backendDomin}/api/password/reset`,
-  //   method: "put",
-  // },
-  
+
   current_user: {
     url: `${backendDomin}/api/user-details`,
     method: "get",

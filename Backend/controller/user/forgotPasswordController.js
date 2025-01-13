@@ -1,114 +1,110 @@
-// const bcrypt = require("bcrypt");
-// const { sendEmail } = require("../../middleware/sendEmail");
-// const crypto = require("crypto");
-// const userModel = require("../../models/userModel");
+const userModel = require("../../models/userModel");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const sendOtp = require("../../services/sendOTP.js");
 
-// const forgotPassword = async (req, res) => {
-//   try {
-//     const user = await userModel.findOne({ email: req.body.email });
+const forgotPassword = async (req, res) => {
+  console.log(req.body);
+  const { phone } = req.body;
 
-//     if (!user) {
-//       return res.json({
-//         success: false,
-//         message: "Email not found.",
-//       });
-//     }
+  if (!phone) {
+    return res.status(400).json({
+      success: false,
+      message: "Provide your Phone number",
+    });
+  }
+  try {
+    //finding user
+    const user = await userModel.findOne({ phone: phone });
+    if (!user) {
+      return res.status(400).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+    // generate random 6 digit  OTP
+    const otp = Math.floor(100000 + Math.random() * 900000);
 
-//     const resetPasswordToken = user.getResetPasswordToken();
-//     console.log(user.resetPasswordToken, user.resetPasswordExpire);
+    // generate expiry date
+    const expiryDate = Date.now() + 360000;
 
-//     await user.save();
+    // save to database for verification
+    user.resetPasswordOTP = otp;
+    user.resetPasswordExpires = expiryDate;
+    await user.save();
 
-//     // Assuming you have a configuration variable for the frontend URL
-//     const frontendBaseUrl = process.env.FRONTEND_URL || "http://localhost:3000";
-//     const resetUrl = `${frontendBaseUrl}/password/reset/${resetPasswordToken}`;
+    // send to register phone number
+    const isSent = await sendOtp(phone, otp);
+    if (!isSent) {
+      return res.status(400).json({
+        success: false,
+        message: "Error sending otp code!",
+      });
+    }
+    // if success
+    res.status(200).json({
+      success: true,
+      message: "OTP SEnd Successfully",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Internal server error",
+    });
+  }
+};
 
-//     const message = `Dear ${user.name},
-    
-//   Please reset your password by clicking on the link below:
-  
-//   ${resetUrl}
-  
-//   If you didn't request a password reset, please ignore this email or contact our support team if you have any concerns.
-  
-//   Best regards,
-//   Shopsmart
-//   `;
+// verify otp ans set new password
+const verifyOtpAndSetPassword = async (req, res) => {
+  //get data
+  const { phone, otp, newPassword } = req.body;
+  if (!phone || !otp || !newPassword) {
+    return res.status(400).json({
+      success: false,
+      message: "Required fields are missing",
+    });
+  }
+  try {
+    const user = await userModel.findOne({ phone: phone });
 
-//     try {
-//       await sendEmail({
-//         email: user.email,
-//         subject: "Password Reset Request - ShopSmart",
-//         message,
-//       });
+    // verify otp
+    if (user.resetPasswordOTP != otp) {
+      return res.status(400).json({
+        success: false,
+        message: "Invalid OTP!",
+      });
+    }
+    if (user.resetPasswordExpires < Date.now()) {
+      return res.status(400).json({
+        success: false,
+        message: "OTP Expired !",
+      });
+    }
+    // password hash
+    // Hashing /Encryption of the password
+    const randomSalt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(newPassword, randomSalt);
 
-//       res.status(200).json({
-//         success: true,
-//         message: `Email sent to ${user.email}`,
-//       });
-//     } catch (error) {
-//       user.resetPasswordToken = undefined;
-//       user.resetPasswordExpire = undefined;
-//       await user.save();
+    //update to database
+    user.password = hashedPassword;
+    await user.save();
 
-//       res.json({
-//         success: false,
-//         message: error.message,
-//       });
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     res.json({
-//       success: false,
-//       message: error.message,
-//     });
-//   }
-// };
+    // response
+    return res.status(200).json({
+      success: true,
+      message: " OTP varified and Password updated successfully!",
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: "Server Error!",
+    });
+  }
+};
 
-// const resetPassword = async (req, res) => {
-//   console.log(req.params.token);
-//   try {
-//     const resetPasswordToken = crypto
-//       .createHash("sha256")
-//       .update(req.params.token)
-//       .digest("hex");
-
-//     console.log(resetPasswordToken);
-
-//     const user = await userModel.findOne({
-//       resetPasswordToken,
-//       resetPasswordExpire: { $gt: Date.now() },
-//     });
-
-//     if (!user) {
-//       return res.status(401).json({
-//         success: false,
-//         message: "Token is invalid or has expired",
-//       });
-//     }
-
-//     const randomSalt = await bcrypt.genSalt(10);
-//     const encryptedPassword = await bcrypt.hash(req.body.password, randomSalt);
-//     user.password = encryptedPassword;
-
-//     user.resetPasswordToken = undefined;
-//     user.resetPasswordExpire = undefined;
-//     await user.save();
-
-//     res.status(200).json({
-//       success: true,
-//       message: "Password Updated",
-//     });
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({
-//       success: false,
-//       message: error.message,
-//     });
-//   }
-// };
-
-// module.exports = {
-//   forgotPassword,
-//   resetPassword,
-// };
+module.exports = {
+  forgotPassword,
+  verifyOtpAndSetPassword,
+};

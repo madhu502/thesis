@@ -5,13 +5,12 @@ import AllProducts from "../pages/AllProducts";
 import AllUsers from "../pages/AllUsers";
 import Cart from "../pages/Cart";
 import CategoryProduct from "../pages/CategoryProduct";
-import ForgotPassword from "../pages/ForgotPassword";
 import HomePage from "../pages/HomePage";
 import Login from "../pages/Login";
+import KhaltiButton from "../pages/Payment";
 import ProductDetails from "../pages/ProductDetails";
 import SearchProduct from "../pages/SearchProduct";
 import SignUp from "../pages/SignUp";
-import KhaltiButton from "../pages/Payment";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,10 +24,7 @@ const router = createBrowserRouter([
         path: "signin",
         element: <Login />,
       },
-      {
-        path: "forgot-password",
-        element: <ForgotPassword />,
-      },
+
       {
         path: "sign-up",
         element: <SignUp />,

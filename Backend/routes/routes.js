@@ -22,18 +22,13 @@ const updateAddToCartProduct = require("../controller/user/updateAddToCartProduc
 const deleteAddToCartProduct = require("../controller/user/deleteAddToCartproduct");
 const searchProduct = require("../controller/product/searchProduct");
 const filterProductController = require("../controller/product/filterProduct");
-// const {
-//   forgotPassword,
-//   resetPassword,
-// } = require("../controller/user/forgotPasswordController");
 
 router.post("/signup", userSignUpController);
 router.post("/signin", userSignInController);
 router.get("/user-details", authToken, userDetailsController);
 router.get("/userLogout", userLogout);
 
-// router.post("/forgot-password", forgotPassword);
-// router.put("/password/reset/:token", resetPassword);
+
 
 //admin panel
 router.get("/all-user", authToken, allUsers);
