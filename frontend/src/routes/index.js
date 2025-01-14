@@ -3,6 +3,7 @@ import App from "../App";
 import AdminPanel from "../pages/AdminPanel";
 import AllProducts from "../pages/AllProducts";
 import AllUsers from "../pages/AllUsers";
+import Analytics from "../pages/Analytics";
 import Cart from "../pages/Cart";
 import CategoryProduct from "../pages/CategoryProduct";
 import HomePage from "../pages/HomePage";
@@ -41,6 +42,7 @@ const router = createBrowserRouter([
         path: "cart",
         element: <Cart />,
       },
+
       {
         path: "payment",
         element: <KhaltiButton />,
@@ -60,6 +62,10 @@ const router = createBrowserRouter([
           {
             path: "all-products",
             element: <AllProducts />,
+          },
+          {
+            path: "analytics",
+            element: <Analytics />,
           },
         ],
       },
