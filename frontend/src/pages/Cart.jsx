@@ -1,9 +1,10 @@
+import KhaltiCheckout from "khalti-checkout-web";
 import React, { useContext, useEffect, useState } from "react";
 import { MdDelete } from "react-icons/md";
-import { Link } from "react-router-dom";
 import SummaryApi from "../common";
 import Context from "../context";
 import displayINRCurrency from "../helpers/displayCurrency";
+import khaltiConfig from "../helpers/khaltiConfig";
 
 const Cart = () => {
   const [data, setData] = useState([]);
@@ -107,6 +108,14 @@ const Cart = () => {
     (preve, curr) => preve + curr.quantity * curr?.productId?.sellingPrice,
     0
   );
+  const handlePayment = () => {
+    const checkout = new KhaltiCheckout(khaltiConfig);
+
+    checkout.show({
+      amount: 199 * 100,
+      // amount: totalPrice * 100, // Khalti accepts amount in paisa
+    });
+  };
   return (
     <div className="container mx-auto">
       <div className="text-center text-lg my-3">
@@ -137,6 +146,7 @@ const Cart = () => {
                       <img
                         src={product?.productId?.productImage[0]}
                         className="w-full h-full object-scale-down mix-blend-multiply"
+                        alt=""
                       />
                     </div>
                     <div className="px-4 py-2 relative">
@@ -206,12 +216,12 @@ const Cart = () => {
                 <p>{displayINRCurrency(totalPrice)}</p>
               </div>
 
-              <Link
+              <button
                 className="bg-blue-600 p-2 text-white w-full mt-2 flex items-center text-center"
-                to={"/payment"}
+                onClick={handlePayment}
               >
                 Payment
-              </Link>
+              </button>
             </div>
           )}
         </div>
